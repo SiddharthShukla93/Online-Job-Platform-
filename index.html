@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Job Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <h1>Online Job Platform</h1>
+    </div>
+    <div class="header-controls">
+      <nav class="topnav" aria-label="Main navigation">
+        <button class="nav-btn active" data-view="auth">Account</button>
+        <button class="nav-btn" data-view="jobs">Jobs</button>
+        <button class="nav-btn" data-view="profile">Profile</button>
+        <button class="nav-btn" data-view="employer">Employer</button>
+      </nav>
+      <div class="session-box">
+        <p id="session-text" class="session-text">Not logged in</p>
+        <button id="logout-btn" class="btn-secondary small-btn hidden" type="button">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="view-auth" class="view active" aria-labelledby="auth-heading">
+      <div class="panel">
+        <h2 id="auth-heading">Join and Access Opportunities</h2>
+        <p class="subtitle">Create an account, sign in, and start exploring job listings curated for your profile.</p>
+
+        <div class="auth-toggle" role="tablist" aria-label="Authentication tabs">
+          <button class="tab-btn active" data-tab="register" role="tab">Register</button>
+          <button class="tab-btn" data-tab="login" role="tab">Login</button>
+        </div>
+
+        <form id="register-form" class="card" autocomplete="on">
+          <h3>Create Account</h3>
+          <label for="reg-role">Register As</label>
+          <select id="reg-role" name="role" required>
+            <option value="seeker">Job Seeker</option>
+            <option value="employer">Employer</option>
+          </select>
+
+          <label for="reg-name">Full Name</label>
+          <input id="reg-name" name="name" type="text" placeholder="Enter your full name" required />
+
+          <label for="reg-email">Email</label>
+          <input id="reg-email" name="email" type="email" placeholder="you@example.com" required />
+
+          <label for="reg-password">Password</label>
+          <input id="reg-password" name="password" type="password" minlength="6" placeholder="Minimum 6 characters" required />
+
+          <button type="submit" class="btn-primary">Register</button>
+          <p class="form-note">Already have an account? Switch to login tab above.</p>
+        </form>
+
+        <form id="login-form" class="card hidden" autocomplete="on">
+          <h3>Welcome Back</h3>
+          <label for="login-role">Login As</label>
+          <select id="login-role" name="role" required>
+            <option value="seeker">Job Seeker</option>
+            <option value="employer">Employer</option>
+          </select>
+
+          <label for="login-email">Email</label>
+          <input id="login-email" name="email" type="email" placeholder="you@example.com" required />
+
+          <label for="login-password">Password</label>
+          <input id="login-password" name="password" type="password" placeholder="Your password" required />
+
+          <button type="submit" class="btn-primary">Login</button>
+          <p class="form-note">Use your role, email, and password to continue.</p>
+        </form>
+
+        <p class="form-note auth-hint">Tip: Select Job Seeker or Employer while registering and use the same role during login.</p>
+      </div>
+    </section>
+
+    <section id="view-jobs" class="view" aria-labelledby="jobs-heading">
+      <div class="panel">
+        <h2 id="jobs-heading">Browse Available Jobs</h2>
+        <p class="subtitle">Use filters to discover opportunities by role, location, and employment type.</p>
+
+        <div class="filters card">
+          <div class="field">
+            <label for="search-input">Search</label>
+            <input id="search-input" type="text" placeholder="Role, skill, or company" />
+          </div>
+          <div class="field">
+            <label for="location-filter">Location</label>
+            <select id="location-filter">
+              <option value="all">All Locations</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="type-filter">Type</label>
+            <select id="type-filter">
+              <option value="all">All Types</option>
+            </select>
+          </div>
+          <button id="clear-filters" class="btn-secondary" type="button">Clear Filters</button>
+        </div>
+
+        <div class="stats" id="job-stats">0 jobs found</div>
+        <div id="jobs-grid" class="jobs-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="view-profile" class="view" aria-labelledby="profile-heading">
+      <div class="panel">
+        <h2 id="profile-heading">Your Job Seeker Profile</h2>
+        <p class="subtitle">Keep your profile updated to match relevant opportunities quickly.</p>
+
+        <div id="profile-guard" class="card hidden">
+          <h3>Profile Access</h3>
+          <p class="muted">This section is for Job Seeker accounts. Login as Job Seeker to manage your profile.</p>
+        </div>
+
+        <form id="profile-form" class="card">
+          <label for="profile-name">Name</label>
+          <input id="profile-name" name="name" type="text" placeholder="Your name" required />
+
+          <label for="profile-email">Email</label>
+          <input id="profile-email" name="email" type="email" placeholder="Your email" required />
+
+          <label for="profile-skills">Skills (comma separated)</label>
+          <input id="profile-skills" name="skills" type="text" placeholder="HTML, CSS, JavaScript" />
+
+          <label for="profile-about">About You</label>
+          <textarea id="profile-about" name="about" rows="4" placeholder="Short professional summary"></textarea>
+
+          <button type="submit" class="btn-primary">Save Profile</button>
+        </form>
+
+        <div class="card summary" id="profile-summary">
+          <h3>Profile Summary</h3>
+          <p class="muted">No profile saved yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-employer" class="view" aria-labelledby="employer-heading">
+      <div class="panel">
+        <h2 id="employer-heading">Employer Job Management</h2>
+        <p class="subtitle">Post new jobs and manage your existing job listings from one place.</p>
+
+        <div id="employer-guard" class="card hidden">
+          <h3>Employer Access</h3>
+          <p class="muted">Login as Employer to post and manage job listings.</p>
+        </div>
+
+        <form id="employer-form" class="card">
+          <h3 id="employer-form-title">Post a New Job</h3>
+          <input id="job-edit-id" name="editId" type="hidden" />
+
+          <label for="emp-title">Job Title</label>
+          <input id="emp-title" name="title" type="text" placeholder="e.g. React Developer" required />
+
+          <label for="emp-company">Company</label>
+          <input id="emp-company" name="company" type="text" placeholder="Company name" required />
+
+          <label for="emp-location">Location</label>
+          <input id="emp-location" name="location" type="text" placeholder="e.g. Chennai or Remote" required />
+
+          <label for="emp-type">Employment Type</label>
+          <select id="emp-type" name="type" required>
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Internship">Internship</option>
+            <option value="Contract">Contract</option>
+          </select>
+
+          <label for="emp-salary">Salary Range</label>
+          <input id="emp-salary" name="salary" type="text" placeholder="e.g. $40k - $55k" required />
+
+          <label for="emp-skills">Skills (comma separated)</label>
+          <input id="emp-skills" name="skills" type="text" placeholder="React, JavaScript, REST API" required />
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Save Job</button>
+            <button type="button" id="job-cancel-edit" class="btn-secondary">Cancel Edit</button>
+          </div>
+        </form>
+
+        <div class="card">
+          <h3>Your Posted Jobs</h3>
+          <div id="employer-jobs-list" class="jobs-grid" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
